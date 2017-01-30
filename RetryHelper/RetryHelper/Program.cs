@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using RetryHelper.Helpers;
+using RetryHelper.Interceptors;
 
 namespace RetryHelper
 {
@@ -11,7 +12,9 @@ namespace RetryHelper
             IUnityContainer container = new UnityContainer();
             container.RegisterType<IRetryHelper, Helpers.RetryHelper>();
 
-            container.AddNewExtension<Interception>();
+            container.AddNewExtension<Interception>(
+                new Interceptor<InterfaceInterceptor>(),
+                new InterceptionBehavior<RetryInterceptionBehaviour>());
         }
     }
 }
