@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Configuration;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity.InterceptionExtension;
 
 namespace RetryHelper.Helpers
 {
-    public class RetryHelper : IRetryHelper
+    public class RetryHelper : IRetryHelper, ICallHandler
     {
         private static int _retryHelperAttempts;
         private static int _retryHelperDelay;
@@ -57,5 +58,33 @@ namespace RetryHelper.Helpers
 
             return result;
         }
+
+        public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
+        {
+            
+
+            // Invoke the next handler in the chain
+            var result = getNext().Invoke(input, getNext);
+
+            if (result.Exception != null)
+            {
+                
+            }
+
+            // Deal with tasks, if needed
+            var method = input.MethodBase as MethodInfo;
+            if (value.ReturnValue != null
+                  && method != null
+                  && typeof(Task) == method.ReturnType)
+            {
+                // If this method returns a Task, override the original return value
+                var task = (Task)value.ReturnValue;
+                return input.CreateMethodReturn(this.CreateWrapperTask(task, input), value.Outputs);
+            }
+
+            return result;
+        }
+
+        public int Order { get; set; }
     }
 }

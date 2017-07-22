@@ -70,7 +70,7 @@
   <ItemGroup>
     <Compile Include="Helpers\IRetryHelper.cs" />
     <Compile Include="Helpers\IRetryHelperOperation.cs" />
-    <Compile Include="Interceptors\RetryInterceptionBehaviour.cs" />
+    <Compile Include="InterceptorHandleBehaviours\RetryHelperHandleAttribute.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\RetryHelper.cs" />
