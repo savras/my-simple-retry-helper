@@ -61,7 +61,6 @@ namespace RetryHelper.Helpers
 
         public IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
         {
-            
 
             // Invoke the next handler in the chain
             var result = getNext().Invoke(input, getNext);
